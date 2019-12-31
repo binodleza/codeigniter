@@ -1,0 +1,16 @@
+SELECT TP.payment_id, TP.subscription_number, TOR.type_id  FROM tbl_order as TOR LEFT JOIN   tbl_payments as TP ON  TOR.order_id =  TP.order_id  ;
+SELECT TP.payment_id, TP.subscription_number, TOR.type_id FROM tbl_order as TOR LEFT JOIN tbl_payments as TP ON TOR.order_id = TP.order_id WHERE TOR.order_id = 444
+
+SELECT TP.payment_id, TP.subscription_number, TOR.type_id FROM tbl_order as TOR 
+LEFT JOIN (select t1.order_id from tbl_payments as t1 LEFT OUTER JOIN tbl_payments as t2 ON t2.order_id = t1.order_id AND t1.payment_date > t2.payment_date ) as TP ON TOR.order_id = TP.order_id 
+WHERE TOR.order_id = 444
+
+
+SELECT * FROM tbl_order as TOR LEFT JOIN (select t1.order_id from tbl_payments as t1 LEFT OUTER JOIN tbl_payments as t2 ON t2.order_id = t1.order_id AND t1.payment_date > t2.payment_date WHERE t2.order_id IS NULL ) as TP ON TOR.order_id = TP.order_id WHERE TOR.order_id = 444
+
+select t1.order_id as t1_order_id, t2.order_id as t2_order_id from tbl_payments as t1 LEFT OUTER JOIN tbl_payments as t2 ON t2.order_id = t1.order_id AND t1.payment_date > t2.payment_date
+
+GEThttp://websites.lezasolutions.com/osh/product/get-list?type=R&exclude=&draw=1&columns%5B0%5D%5Bdata%5D=0&columns%5B0%5D%5Bname%5D=&columns%5B0%5D%5Bsearchable%5D=false&columns%5B0%5D%5Borderable%5D=false&columns%5B0%5D%5Bsearch%5D%5Bvalue%5D=&columns%5B0%5D%5Bsearch%5D%5Bregex%5D=false&columns%5B1%5D%5Bdata%5D=1&columns%5B1%5D%5Bname%5D=&columns%5B1%5D%5Bsearchable%5D=true&columns%5B1%5D%5Borderable%5D=false&columns%5B1%5D%5Bsearch%5D%5Bvalue%5D=&columns%5B1%5D%5Bsearch%5D%5Bregex%5D=false&columns%5B2%5D%5Bdata%5D=2&columns%5B2%5D%5Bname%5D=&columns%5B2%5D%5Bsearchable%5D=true&columns%5B2%5D%5Borderable%5D=false&columns%5B2%5D%5Bsearch%5D%5Bvalue%5D=&columns%5B2%5D%5Bsearch%5D%5Bregex%5D=false&columns%5B3%5D%5Bdata%5D=3&columns%5B3%5D%5Bname%5D=&columns%5B3%5D%5Bsearchable%5D=true&columns%5B3%5D%5Borderable%5D=false&columns%5B3%5D%5Bsearch%5D%5Bvalue%5D=&columns%5B3%5D%5Bsearch%5D%5Bregex%5D=false&start=0&length=10&search%5Bvalue%5D=&search%5Bregex%5D=false&_=1577796574298
+[HTTP/1.1 200 OK 188ms]
+
+XHR
