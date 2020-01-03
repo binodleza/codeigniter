@@ -36,7 +36,6 @@ class Lawyer extends CI_Controller {
 
     public function getLawyer()
     {
-
        // $query = $this->db->query("select * from tbl_admin");
         //$result = $query->result();
 
@@ -45,7 +44,6 @@ class Lawyer extends CI_Controller {
          foreach ($result as $row){
             echo $row['admin_id'];
          }*/
-
          $this->db->select('*')->from('tbl_order');
          $this->db->join('(
                                         SELECT t1.*
@@ -60,6 +58,85 @@ class Lawyer extends CI_Controller {
 
 
         show($result);
+    }
+
+    public function getConfig(){
+       // $this->config->set_item('mainURL','itsolutionstuff.com');
+        //$mainURL = $this->config->item('mainURL');
+
+        $this->config->load('breadcrumbs');
+        //$this->config->set_item('hide_number', '32333');
+
+        $mainURL =  $this->config->item('hide_number');
+        echo $mainURL;
+
+    }
+
+
+    public function getForm(){
+
+        $this->render('backend/form');
+    }
+
+    public function save_user(){
+        $this->load->library('form_validation');
+        //$this->form_validation->set_rules('email', 'Email Id', 'required');
+        $this->form_validation->set_rules('password', 'Password', 'required');
+        $this->form_validation->set_rules('passconf', 'Password Confirmation', 'required|matches[password]');
+        $this->form_validation->set_rules('file_user', 'User Photo', 'required');
+        $this->form_validation->set_rules(
+            'email', 'Email Id',
+            'required|min_length[5]|max_length[50]|is_unique[tbl_users.email]',
+            array(
+                'required'      => 'You have not provided %s.',
+                'is_unique'     => 'This %s already exists.'
+            )
+        );
+
+
+        if ($this->form_validation->run() == FALSE) {
+
+            $validation = $this->form_validation->error_array();
+           /* $field = array();
+            foreach($validation as $key => $value) {
+                array_push($field,$key);
+            }*/
+            $error = array();
+            foreach($validation as $key => $row)
+                $error[] = array('field' => $key, 'error' => $row);
+
+
+
+            if(!empty($error)) {
+                $this->json['status'] = 'error';
+                $this->json['errorfields'] = $error;
+            } else {
+                $this->json['status'] = 'success';
+            }
+            echo json_encode($this->json);
+            exit;
+            $json = array(
+                'email' => form_error('email', '<p class="mt-3 text-danger">', '</p>'),
+                'password' => form_error('password', '<p class="mt-3 text-danger">', '</p>'),
+                'passconf' => form_error('passconf', '<p class="mt-3 text-danger">', '</p>'),
+                'file_user' => form_error('file_user', '<p class="mt-3 text-danger">', '</p>')
+            );
+            echo json_encode($json);
+            exit;
+            return $json;
+            $this->output->set_content_type('application/json')->set_output(json_encode($json));
+            //show($field);
+            //echo validation_errors();
+            exit;
+            $this->render('backend/form');
+        } else {
+            exit;
+            //$this->render('backend/form');
+            redirect(base_url('getForm'));
+        }
+
+       // $postArray = $this->input->post();
+
     }
 
 

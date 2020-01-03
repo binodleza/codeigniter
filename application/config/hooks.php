@@ -1,13 +1,19 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-/*
-| -------------------------------------------------------------------------
-| Hooks
-| -------------------------------------------------------------------------
-| This file lets you define "hooks" to extend CI without hacking the core
-| files.  Please see the user guide for info:
-|
-|	https://codeigniter.com/user_guide/general/hooks.html
-|
-*/
+
+/*$hook['pre_controller'] = array(
+    'class' => 'Lawyer',
+    'function' => 'getHook',
+    'filename' => 'Lawyer.php',
+    'filepath' => 'hooks',
+    'params' => array('element1', 'element2', 'element3')
+);*/
+
+/*$hook['pre_controller'] = array(
+    'class' => 'Exm',
+    'function' => 'tut',
+    'filename' => 'exm.php',
+    'filepath' => 'hooks',
+    'params' => array('element4', 'element5', 'element6')
+);*/
