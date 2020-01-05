@@ -145,7 +145,42 @@ class Lawyer extends CI_Controller {
 
     }
 
- public function uploadImage() {  
+    public function uploadImage() {  
+    if(!empty($_FILES)){ 
+      $this->load->library('image_lib');
+      $config['file_name']        = time().'-'.$_FILES["image"]['name'];
+      $config['upload_path'] = UPLOADS;
+      $config['allowed_types'] = 'gif|jpg|png';
+      $this->load->library('upload', $config);
+      if ( ! $this->upload->do_upload('image'))
+      {
+         echo "error";    
+      }
+      else
+      {
+            $image_data =   $this->upload->data();
+
+            $configer =  array(
+              'image_library'   => 'gd2',
+              'source_image'    =>  $image_data['full_path'],
+              //'maintain_ratio'  =>  TRUE,
+              'maintain_ratio'  =>  FALSE,
+              'width'           =>  250,
+              'height'          =>  250,
+            );
+            $this->image_lib->clear();
+            $this->image_lib->initialize($configer);
+            $this->image_lib->resize();
+
+            show($image_data);
+            $this->model->saveImage($image_data['file_name']);
+      } 
+   }
+   // $this->render('backend/image-upload'); 
+   }
+
+
+ public function uploadImageRunning() {  
     if(!empty($_FILES)){ 
       $config['file_name']        = time().'-'.$_FILES["image"]['name'];
       $config['upload_path']   = UPLOADS; // define in constants //
