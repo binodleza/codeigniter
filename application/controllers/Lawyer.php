@@ -140,4 +140,102 @@ class Lawyer extends CI_Controller {
     }
 
 
+    public function imageUpload(){ 
+          $this->render('backend/image-upload');
+
+    }
+
+ public function uploadImage() {  
+    if(!empty($_FILES)){ 
+      $config['file_name']        = time().'-'.$_FILES["image"]['name'];
+      $config['upload_path']   = UPLOADS; // define in constants //
+
+      $config['allowed_types'] = 'gif|jpg|png'; 
+      $config['max_size']      = 1024;
+      $config['file_ext_tolower'] = TRUE;
+
+      $this->load->library('upload', $config);
+
+
+      if ( ! $this->upload->do_upload('image')) {
+         $error = array('error' => $this->upload->display_errors()); 
+         show($error);
+         //$this->load->view('imageUploadForm', $error); 
+      }else {  
+        $uploadedImage = $this->upload->data(); 
+        // thumbnail image name made from image raw name + _thumb + extension //
+        $thumbnailName = $uploadedImage['raw_name'].'_thumb'.$uploadedImage['file_ext']; 
+        $isResizeDone = $this->resizeImage($uploadedImage['file_name']);
+        // isResizeDone retrun 1 for success //
+        if($isResizeDone){
+
+         $imageDetails['name'] =  $uploadedImage['file_name'];
+         $imageDetails['thumbnailImageName'] =  $thumbnailName ;
+          show($imageDetails); exit;
+          $this->model->saveImage($imageDetails);
+        }  
+         
+      }  
+   }
+   // $this->render('backend/image-upload');
+
+   }
+
+
+  public function resizeImage($filename)
+   { 
+      $source_path = UPLOADS . $filename; 
+      $target_path = UPLOADS;
+      $config_manip = array(
+          'image_library' => 'gd2',
+          'source_image' => $source_path,
+          'new_image' => $target_path,
+          //'maintain_ratio' => TRUE,
+          'maintain_ratio' => FALSE,
+          'create_thumb' => TRUE,
+          'thumb_marker' => '_thumb',
+          'width' => 1024,
+          'height' => 768
+      );
+
+       $result = true;
+      $this->load->library('image_lib', $config_manip);
+      if (!$this->image_lib->resize()) { 
+            echo $this->image_lib->display_errors();
+            $result = false;
+      } 
+
+      $this->image_lib->clear(); 
+      return $result;
+   }
+
+    public function imageUploadtEST(){
+           if($this->input->post()){
+                $config = array(
+                'upload_path' => "./uploads/",
+                'allowed_types' => "gif|jpg|png|jpeg|pdf",
+                'overwrite' => TRUE,
+                'max_size' => "2048", // Can be set to particular file size , here it is 2 MB(2048 Kb)
+                'max_height' => "1768",
+                'max_width' => "3024"
+                );
+                $this->load->library('upload', $config);
+                if($this->upload->do_upload())
+                {
+                $data = array('upload_data' => $this->upload->data());
+                $this->load->view('image-upload',$data);
+                }
+                else
+                {
+                $error = array('error' => $this->upload->display_errors());
+                $this->load->view('image-upload', $error);
+                }
+                }
+
+                $this->render('backend/image-upload');
+           }
+            
+
+
+
 }
