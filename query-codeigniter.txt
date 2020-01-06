@@ -14,3 +14,8 @@ GEThttp://websites.lezasolutions.com/osh/product/get-list?type=R&exclude=&draw=1
 [HTTP/1.1 200 OK 188ms]
 
 XHR
+
+
+$model = \app\models\UserFavorite::find()->where(['user_id' => $user_id])->all();
+
+<input type="text" name="<?php echo $this->security->get_csrf_token_name(); ?>" value="<?php echo $this->security->get_csrf_hash(); ?>">

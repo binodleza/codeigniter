@@ -13,16 +13,13 @@
               <?php  
               //echo form_open( base_url( 'lawyer/imageUpload' ), array( 'id' => 'user-form', 'class' => 'user-form' ) ); 
               ?>
-              <?php echo form_open_multipart('lawyer/uploadImage');?>
+              <?php echo form_open_multipart('lawyer/multipleUpload');?>
                 <div class="card-body">
-                   
-                  
-                    
                   <div class="form-group">
                     <label for="exampleInputFile">File input</label>
                     <div class="input-group">
                       <div class="custom-file">
-                        <input type="file" class="custom-file-input" id="exampleInputFile" name="image">
+                        <input type="file" class="custom-file-input" id="exampleInputFile" name="image[]" multiple>
                         <label class="custom-file-label" for="exampleInputFile">Choose file</label>
                       </div>
                       <div class="input-group-append">
@@ -35,11 +32,9 @@
                 <div class="card-footer">
                   <button type="Submit" class="btn btn-primary">Submit</button>
                 </div>
-                <?php echo form_close();?>
             </div>
+                <?php echo form_close();?>
             <!-- /.card -->
-
-
           </div>
           <!--/.col (left) -->
           <!-- right column -->

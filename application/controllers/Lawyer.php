@@ -173,11 +173,76 @@ class Lawyer extends CI_Controller {
             $this->image_lib->resize();
 
             show($image_data);
-            $this->model->saveImage($image_data['file_name']);
+           // $this->model->saveImage($image_data['file_name']);
       } 
    }
    // $this->render('backend/image-upload'); 
    }
+
+    function multipleUpload(){
+        $data = array();
+        // If file upload form submitted
+       // show($_FILES); exit;
+        if(!empty($_FILES['image']['name'])){
+            $this->load->library('image_lib');
+            $filesCount = count($_FILES['image']['name']);
+            for($i = 0; $i < $filesCount; $i++){
+                $_FILES['file']['name']     = $_FILES['image']['name'][$i];
+                $_FILES['file']['type']     = $_FILES['image']['type'][$i];
+                $_FILES['file']['tmp_name'] = $_FILES['image']['tmp_name'][$i];
+                $_FILES['file']['error']     = $_FILES['image']['error'][$i];
+                $_FILES['file']['size']     = $_FILES['image']['size'][$i];
+
+                // File upload configuration
+                $uploadPath = UPLOADS;
+                $config['upload_path'] = $uploadPath;
+                $config['allowed_types'] = 'jpg|jpeg|png|gif';
+
+                // Load and initialize upload library
+                $this->load->library('upload', $config);
+                $this->upload->initialize($config);
+
+                // Upload file to server
+                if($this->upload->do_upload('file')){
+                    // Uploaded file data
+                    $image_data =   $this->upload->data();
+                    $configer =  array(
+                        'image_library'   => 'gd2',
+                        'source_image'    =>  $image_data['full_path'],
+                        //'maintain_ratio'  =>  TRUE,
+                        'maintain_ratio'  =>  FALSE,
+                        'width'           =>  250,
+                        'height'          =>  250,
+                    );
+                    $this->image_lib->clear();
+                    $this->image_lib->initialize($configer);
+                    $this->image_lib->resize();
+
+                    $uploadData[$i]['file_name'] = $image_data['file_name'];
+                    $uploadData[$i]['uploaded_on'] = date("Y-m-d H:i:s");
+
+
+                   /* $fileData = $this->upload->data();
+                    $uploadData[$i]['file_name'] = $fileData['file_name'];
+                    $uploadData[$i]['uploaded_on'] = date("Y-m-d H:i:s"); */
+                }
+            }
+
+            if(!empty($uploadData)){
+
+                show($uploadData);
+                exit;
+               /*
+                // Insert files data into the database
+                $insert = $this->file->insert($uploadData);
+                // Upload status message
+                $statusMsg = $insert?'Files uploaded successfully.':'Some problem occurred, please try again.';
+                $this->session->set_flashdata('statusMsg',$statusMsg);
+               */
+            }
+        }
+
+    }
 
 
  public function uploadImageRunning() {  
