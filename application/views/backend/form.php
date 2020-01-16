@@ -10,7 +10,8 @@
                 <?php echo validation_errors(); ?>
               <!-- /.card-header -->
               <!-- form start -->
-              <?php  echo form_open( base_url( 'lawyer/save_user' ), array( 'id' => 'user-form', 'class' => 'user-form' ) ); ?>
+                <?php
+              echo form_open_multipart( base_url( 'lawyer/save_user' ), array( 'id' => 'user-form', 'class' => 'user-form' ) ); ?>
                 <div class="card-body">
                   <div class="form-group">
 <!--                    <label for="exampleInputEmail1">Email address</label>-->
@@ -41,7 +42,7 @@
                     <label for="exampleInputFile">File input</label>
                     <div class="input-group">
                       <div class="custom-file">
-                        <input type="file" class="custom-file-input" id="exampleInputFile" name="file_user">
+                        <input type="file" class="custom-file-input" id="exampleInputFile" name="photo">
                         <label class="custom-file-label" for="exampleInputFile">Choose file</label>
                       </div>
                       <div class="input-group-append">
@@ -72,7 +73,7 @@
         <!-- /.row -->
       </div>
   <script>
-      function saveUser(e) {
+     /* function saveUser(e) {
           e.preventDefault();
          // var form = $('#become_lawyer_form')[0];
          // var formData = new FormData(form);
@@ -101,6 +102,31 @@
                       //$('#input-' + key).parents('.form-group').find('#error').html(value);
                  // });
                   //console.log(response);
+
+              },
+              error: function (jqXHR, textStatus, errorThrown) {
+                  alert(jqXHR.responseText);
+              }
+          });
+      } */
+
+
+      function saveUser(e) {
+          e.preventDefault();
+          var form = $('#user-form')[0];
+          var formData = new FormData(form);
+          $.ajax({
+              type: "POST",
+              url: '<?= base_url() ?>lawyer/save_user',
+              data: formData,
+              cache:false,
+              contentType: false,
+              processData: false,
+              beforeSend: function () {
+                  // $('#maskregitr').mask("Please wait .....");
+              },
+              success: function (response) {
+                 console.log(response);
 
               },
               error: function (jqXHR, textStatus, errorThrown) {

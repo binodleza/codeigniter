@@ -1,6 +1,8 @@
 <?php
-defined('BASEPATH') OR exit('No direct script access allowed');
-
+//namespace \yidas\queue\worker; 
+//use Exception;
+//use CI_Controller;
+defined('BASEPATH') OR exit('No direct script access allowed'); 
 class Lawyer extends CI_Controller {
 
 
@@ -9,6 +11,7 @@ class Lawyer extends CI_Controller {
     {
         parent::__construct();
         $this->load->database();
+		//  $this->load->library('QuLibrary');
         $this->data['pagetitle'] = 'My CodeIgniter App';
     }
 
@@ -22,6 +25,13 @@ class Lawyer extends CI_Controller {
 	{
 		$this->load->view('welcome_message');
 	}
+	
+	public function test(){
+		$query = $this->db->query("select * from employee");
+         $result = $query->result();
+		 show($result);
+		echo "Hello";
+	} 
 
     public function createLawyer()
     {
@@ -79,34 +89,23 @@ class Lawyer extends CI_Controller {
     }
 
     public function save_user(){
+
         $this->load->library('form_validation');
-        //$this->form_validation->set_rules('email', 'Email Id', 'required');
         $this->form_validation->set_rules('password', 'Password', 'required');
         $this->form_validation->set_rules('passconf', 'Password Confirmation', 'required|matches[password]');
-        $this->form_validation->set_rules('file_user', 'User Photo', 'required');
         $this->form_validation->set_rules(
             'email', 'Email Id',
-            'required|min_length[5]|max_length[50]|is_unique[tbl_users.email]',
+            'required|min_length[5]|max_length[50]|is_unique[user.email]',
             array(
                 'required'      => 'You have not provided %s.',
                 'is_unique'     => 'This %s already exists.'
             )
         );
-
-
         if ($this->form_validation->run() == FALSE) {
-
             $validation = $this->form_validation->error_array();
-           /* $field = array();
-            foreach($validation as $key => $value) {
-                array_push($field,$key);
-            }*/
             $error = array();
             foreach($validation as $key => $row)
                 $error[] = array('field' => $key, 'error' => $row);
-
-
-
             if(!empty($error)) {
                 $this->json['status'] = 'error';
                 $this->json['errorfields'] = $error;
@@ -115,27 +114,45 @@ class Lawyer extends CI_Controller {
             }
             echo json_encode($this->json);
             exit;
-            $json = array(
-                'email' => form_error('email', '<p class="mt-3 text-danger">', '</p>'),
-                'password' => form_error('password', '<p class="mt-3 text-danger">', '</p>'),
-                'passconf' => form_error('passconf', '<p class="mt-3 text-danger">', '</p>'),
-                'file_user' => form_error('file_user', '<p class="mt-3 text-danger">', '</p>')
-            );
-            echo json_encode($json);
-            exit;
-            return $json;
-            $this->output->set_content_type('application/json')->set_output(json_encode($json));
-            //show($field);
-            //echo validation_errors();
-            exit;
-            $this->render('backend/form');
+
         } else {
-            exit;
-            //$this->render('backend/form');
+
+            $image_data = array();
+            if(!empty($_FILES)){
+                $this->load->library('image_lib');
+                $config['file_name']        = time().'-'.$_FILES["photo"]['name'];
+                $config['upload_path'] = UPLOADS;
+                $config['allowed_types'] = 'gif|jpg|png';
+                $this->load->library('upload', $config);
+                if ( ! $this->upload->do_upload('photo'))
+                {
+                    echo "error";
+                }
+                else
+                {
+                    $image_data =   $this->upload->data();
+
+                    $configer =  array(
+                        'image_library'   => 'gd2',
+                        'source_image'    =>  $image_data['full_path'],
+                        //'maintain_ratio'  =>  TRUE,
+                        'maintain_ratio'  =>  FALSE,
+                        'width'           =>  250,
+                        'height'          =>  250,
+                    );
+                    $this->image_lib->clear();
+                    $this->image_lib->initialize($configer);
+                    $this->image_lib->resize();
+                }
+            }
+            $fileName = '';
+            if(!empty($image_data)){
+              $fileName =  $image_data['file_name'];
+            }
+
+            $this->model->saveUser($this->input->post(), $fileName);
             redirect(base_url('getForm'));
         }
-
-       // $postArray = $this->input->post();
 
     }
 
@@ -334,6 +351,52 @@ class Lawyer extends CI_Controller {
 
                 $this->render('backend/image-upload');
            }
+
+    public function saveUser()
+    {
+
+        $data = array(
+            'name'=> 'Binod Kr Yadav',
+            'phone'=> '90908978798',
+            'email'=> 'binodyadav2011@gmail.com'
+        );
+        $this->db->insert('user',$data);
+    }
+
+    public function getUnion()
+    {
+       // $this->db->select('*');
+       // $result = $this->db->from('view_listing')->get()->result_array();
+       /// show($result);
+      /*  $this->db->select('listing.listing_id as listing_id, listing.name as listing_name, "L" as list_type');
+        $this->db->from('listing');
+        $result =  $this->db->get()->result_array();
+      */
+       /* $this->db->select('listing.listing_id as listing_id, listing.name as listing_name, "L" as list_type');
+        $this->db->from('listing');
+        $query1 = $this->db->get_compiled_select();
+
+        $this->db->select('trainer.trainer_id as listing_id, trainer.name as listing_name, "T" as list_type');
+        $this->db->from('trainer');
+        $query2 = $this->db->get_compiled_select();
+
+        $query = $this->db->query($query1 . ' UNION ' . $query2);
+        $result =  $query->result_array();
+        show($result);*/
+
+       // $query = "SELECT fname, lname, no_of_years(start_date) as 'years' FROM employee";
+        //$query = $this->db->query($query);
+
+       /* $this->db->select('fname, lname, no_of_years(start_date) as "years"');
+        $query = $this->db->from('employee')->get();
+        $result =  $query->result_array();*/
+
+        $query = $this->db->query("CALL get_user(1, @user_name)");
+        $result = $query->result();
+        show($result);
+
+
+    }
             
 
 

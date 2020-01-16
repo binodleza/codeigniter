@@ -1,3 +1,8 @@
+/************** Links *******************/
+https://expressionengine.com/forums/archive/topic/238139/codeigniter-gearman-library
+
+
+
 SELECT TP.payment_id, TP.subscription_number, TOR.type_id  FROM tbl_order as TOR LEFT JOIN   tbl_payments as TP ON  TOR.order_id =  TP.order_id  ;
 SELECT TP.payment_id, TP.subscription_number, TOR.type_id FROM tbl_order as TOR LEFT JOIN tbl_payments as TP ON TOR.order_id = TP.order_id WHERE TOR.order_id = 444
 
@@ -19,3 +24,19 @@ XHR
 $model = \app\models\UserFavorite::find()->where(['user_id' => $user_id])->all();
 
 <input type="text" name="<?php echo $this->security->get_csrf_token_name(); ?>" value="<?php echo $this->security->get_csrf_hash(); ?>">
+
+
+/******************  ******************/ 
+
+q1. How we know, which query is slow
+Q1.  Log generate for query
+
+q4. _cll & __sleep Magic function
+
+/******************* Permission ********************/
+https://imron02.wordpress.com/2016/07/18/create-user-permission-by-uri-in-codeigniter-3/
+
+
+
+
+ 
