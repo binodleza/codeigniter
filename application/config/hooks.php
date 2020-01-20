@@ -17,3 +17,12 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     'filepath' => 'hooks',
     'params' => array('element4', 'element5', 'element6')
 );*/
+
+$hook['post_controller'] = array(
+    'class'    => 'Blocker',
+    'function' => 'requestBlocker',
+    'filename' => 'Blocker.php',
+    'filepath' => 'hooks',
+    'params'   => ""
+);
+

@@ -73,7 +73,7 @@
         <!-- /.row -->
       </div>
   <script>
-     /* function saveUser(e) {
+       function saveUserOld(e) {
           e.preventDefault();
          // var form = $('#become_lawyer_form')[0];
          // var formData = new FormData(form);
@@ -108,7 +108,7 @@
                   alert(jqXHR.responseText);
               }
           });
-      } */
+      }
 
 
       function saveUser(e) {

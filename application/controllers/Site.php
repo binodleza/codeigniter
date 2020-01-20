@@ -50,6 +50,9 @@ class Site extends CI_Controller {
                if(!empty($result)){
                    $this->session->set_userdata('userInfo', $result);
                    $this->session->set_userdata('logged_in', TRUE);
+                   /************ Set user permission **********/
+                   $getPermissions = getUserPermission($result['admin_id'], 'A');
+                   $this->session->set_userdata('userPermissibleItem', $getPermissions);
                    redirect(base_url('dashboard'));
                }else{
                    $this->session->set_flashdata('errorMsg', "You have entered wrong credentials.");
@@ -89,6 +92,10 @@ class Site extends CI_Controller {
         $this->session->unset_userdata('userInfo');
         $this->session->unset_userdata('logged_in');
         redirect(base_url('site/login'));
+    }
+
+    public function error() {
+        $this->render('backend/error');
     }
 	
 

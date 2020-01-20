@@ -55,3 +55,5 @@ $route['translate_uri_dashes'] = FALSE;
 $route['lawyer/create-lawyer'] = 'lawyer/createLawyer';
 $route['default_controller'] = 'site/login';
 $route['users/(:num)'] = 'users';
+$route['admins/(:num)'] = 'admins';
+$route['admins/update/(:any)'] = 'admins/update/$1';

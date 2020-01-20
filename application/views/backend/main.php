@@ -12,6 +12,7 @@
     <!-- Ionicons -->
     <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
     <!-- Theme style -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
     <link rel="stylesheet" href="<?= base_url() ?>assets/dist/css/adminlte.min.css">
     <!-- Google Font: Source Sans Pro -->
     <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
@@ -177,20 +178,31 @@
 
                     <li class="nav-header">Dashboard</li>
 
-                    <li class="nav-item">
+                    <li class="nav-item <?= isAccess('/dashboard/index') ?>">
                         <a href="<?= base_url() ?>dashboard/index" class="nav-link">
                             <i class="nav-icon fas fa-th"></i>
                             <p> Dashboard </p>
                         </a>
                     </li>
 
-                    <li class="nav-item">
+                    <li class="nav-item <?= isAccess('/users/index') ?>">
                         <a href="<?= base_url() ?>users/index" class="nav-link">
                             <i class="nav-icon fas fa-th"></i>
                             <p> Manage User </p>
                         </a>
                     </li>
-
+                    <li class="nav-item <?= isAccess('/admins/index') ?>">
+                        <a href="<?= base_url() ?>admins/index" class="nav-link">
+                            <i class="nav-icon fas fa-th"></i>
+                            <p> Manage Admin </p>
+                        </a>
+                    </li>
+                    <li class="nav-item <?= isAccess('/admins/permission') ?>">
+                        <a href="<?= base_url() ?>admins/permission" class="nav-link">
+                            <i class="nav-icon fas fa-th"></i>
+                            <p> Permission </p>
+                        </a>
+                    </li>
                     <li class="nav-item">
                         <a href="<?= base_url() ?>site/logout" class="nav-link">
                             <i class="nav-icon fas fa-th"></i>
@@ -231,6 +243,11 @@
 <script src="<?= base_url() ?>assets/plugins/jquery/jquery.min.js"></script>
 <!-- Bootstrap 4 -->
 <script src="<?= base_url() ?>assets/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+
+
 <!-- bs-custom-file-input -->
 <script src="<?= base_url() ?>assets/plugins/bs-custom-file-input/bs-custom-file-input.min.js"></script>
 <!-- AdminLTE App -->

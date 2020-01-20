@@ -101,5 +101,8 @@ $('.onlyNumber').keyup(function (event) {
         $(this).val("");
     }
 });
+setTimeout(function(){ $('.hideSomeTime').hide(2000) }, 3000);
+
+
 
 

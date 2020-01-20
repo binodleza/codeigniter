@@ -9,6 +9,11 @@ class Users extends Admin_Parent {
 
         $this->load->helper('url');
         $this->load->library("pagination");
+
+        $only = array(
+            "index","create","update","delete"
+        );
+        isAllowAccess($only);
     }
 
 	public function index()
