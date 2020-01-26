@@ -178,29 +178,36 @@
 
                     <li class="nav-header">Dashboard</li>
 
-                    <li class="nav-item <?= isAccess('/dashboard/index') ?>">
-                        <a href="<?= base_url() ?>dashboard/index" class="nav-link">
+                   <!-- <li class="nav-item <?= isAccess('/dashboard/index') ?>"> -->
+                    <li class="nav-item">
+                    <a href="<?= base_url() ?>dashboard/index" class="nav-link">
                             <i class="nav-icon fas fa-th"></i>
                             <p> Dashboard </p>
                         </a>
                     </li>
 
-                    <li class="nav-item <?= isAccess('/users/index') ?>">
+                    <li class="nav-item">
                         <a href="<?= base_url() ?>users/index" class="nav-link">
                             <i class="nav-icon fas fa-th"></i>
                             <p> Manage User </p>
                         </a>
                     </li>
-                    <li class="nav-item <?= isAccess('/admins/index') ?>">
+                    <li class="nav-item">
                         <a href="<?= base_url() ?>admins/index" class="nav-link">
                             <i class="nav-icon fas fa-th"></i>
                             <p> Manage Admin </p>
                         </a>
                     </li>
-                    <li class="nav-item <?= isAccess('/admins/permission') ?>">
+                    <li class="nav-item">
                         <a href="<?= base_url() ?>admins/permission" class="nav-link">
                             <i class="nav-icon fas fa-th"></i>
                             <p> Permission </p>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="<?= base_url() ?>admins/excel_upload" class="nav-link">
+                            <i class="nav-icon fas fa-th"></i>
+                            <p> Excel Upload </p>
                         </a>
                     </li>
                     <li class="nav-item">

@@ -1,6 +1,8 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
-
+use PhpOffice\PhpSpreadsheet\IOFactory;
+use PhpOffice\PhpSpreadsheet\Spreadsheet;
+use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 class Admins extends Admin_Parent
 {
 
@@ -15,11 +17,43 @@ class Admins extends Admin_Parent
          $only = array(
              "index","create","update","delete","test","check"
          );
-         isAllowAccess($only);
+        // isAllowAccess($only);
     }
-    public function check(){
 
-         echo 'hi';
+
+    public function excel_upload(){
+		 
+       
+		  if (!empty($_FILES) && !empty($_FILES["image"]['name'])) {
+			//  show($_FILES["image"]['name']);
+			  
+			  $inputFileType = 'Xlsx';
+        $inputFileName = 'sample.xlsx';
+		 $inputFileName = $_FILES["image"]['name'];
+		
+        $reader = \PhpOffice\PhpSpreadsheet\IOFactory::createReader($inputFileType); 
+        $spreadsheet = $reader->load($inputFileName);
+		$sheet = $spreadsheet->getActiveSheet();
+ 
+        // Store data from the activeSheet to the varibale in the form of Array
+        $data = array(1,$sheet->toArray(null,true,true,true)); 
+        show($data);
+// Display the sheet content 
+//var_dump($data);
+		 exit;
+		
+        print_r( $spreadsheet );
+			  exit;
+		  }
+		/*exit;
+        $inputFileType = 'Xlsx';
+        $inputFileName = 'sample.xlsx';
+		
+        $reader = \PhpOffice\PhpSpreadsheet\IOFactory::createReader($inputFileType); 
+        $spreadsheet = $reader->load($inputFileName);
+        print_r( $spreadsheet );
+         echo 'hi'; */
+		 $this->render('backend/admins/excel');
     }
 
     public function index()

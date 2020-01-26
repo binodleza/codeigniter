@@ -15,7 +15,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 |
 | If it is not set, then CodeIgniter will try guess the protocol and path
 | your installation, but due to security concerns the hostname will be set
-| to $_SERVER['SERVER_ADDR'] if available, or localhost otherwise.
+| to $_SERVER['SERVER_AD
+DR'] if available, or localhost otherwise.
 | The auto-detection mechanism exists only for convenience during
 | development and MUST NOT be used in production!
 |
@@ -99,7 +100,7 @@ $config['charset'] = 'UTF-8';
 | setting this variable to TRUE (boolean).  See the user guide for details.
 |
 */
-$config['enable_hooks'] = TRUE;
+$config['enable_hooks'] = FALSE;
 
 /*
 |--------------------------------------------------------------------------
@@ -136,8 +137,8 @@ $config['subclass_prefix'] = 'MY_';
 |	autoloading (application/config/autoload.php)
 */
 //$config['composer_autoload'] = FALSE;
- $config['composer_autoload'] = TRUE;
-//$config['composer_autoload'] =  'vendor/autoload.php';
+// $config['composer_autoload'] = TRUE;
+$config['composer_autoload'] =  'vendor/autoload.php';
 /*
 |--------------------------------------------------------------------------
 | Allowed URL Characters
