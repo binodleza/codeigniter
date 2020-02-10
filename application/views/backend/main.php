@@ -211,6 +211,12 @@
                         </a>
                     </li>
                     <li class="nav-item">
+                        <a href="<?= base_url() ?>mailer/index" class="nav-link">
+                            <i class="nav-icon fas fa-th"></i>
+                            <p> Send Mail </p>
+                        </a>
+                    </li>
+                    <li class="nav-item">
                         <a href="<?= base_url() ?>site/logout" class="nav-link">
                             <i class="nav-icon fas fa-th"></i>
                             <p> Logout </p>

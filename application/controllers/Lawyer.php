@@ -205,6 +205,9 @@ class Lawyer extends CI_Controller {
             $filesCount = count($_FILES['image']['name']);
             for($i = 0; $i < $filesCount; $i++){
                 $_FILES['file']['name']     = $_FILES['image']['name'][$i];
+				
+				$_FILES['file']['name']   =   time().'-'.$_FILES['file']['name']; // change name //
+				
                 $_FILES['file']['type']     = $_FILES['image']['type'][$i];
                 $_FILES['file']['tmp_name'] = $_FILES['image']['tmp_name'][$i];
                 $_FILES['file']['error']     = $_FILES['image']['error'][$i];
@@ -245,17 +248,9 @@ class Lawyer extends CI_Controller {
                 }
             }
 
-            if(!empty($uploadData)){
-
+            if(!empty($uploadData)){ 
                 show($uploadData);
-                exit;
-               /*
-                // Insert files data into the database
-                $insert = $this->file->insert($uploadData);
-                // Upload status message
-                $statusMsg = $insert?'Files uploaded successfully.':'Some problem occurred, please try again.';
-                $this->session->set_flashdata('statusMsg',$statusMsg);
-               */
+                exit; 
             }
         }
 
@@ -394,6 +389,45 @@ class Lawyer extends CI_Controller {
         $query = $this->db->query("CALL get_user(1, @user_name)");
         $result = $query->result();
         show($result);
+
+
+    }
+
+
+    function insertBatch(){
+
+        $data=array(
+            array('name'=>'Sunil', 'phone'=>9879879),
+            array('name'=>'Champak', 'phone'=>907767),
+            array('name'=>'Hanuman', 'phone'=>8907878),
+          );
+
+       /* $entries = [];
+        $count = count($data['count']);
+        for($i = 0; $i<$count; $i++){
+             $entries[] = array(
+            'name'=>$data['name'][$i],
+            'phone'=>$data['phone'][$i],
+        );
+
+        } */
+        $entries = $data;
+        show($entries);
+         exit;
+
+        if(!empty($entries)){
+            $this->db->insert_batch('test', $entries);
+            if($this->db->affected_rows() > 0){
+                echo $this->db->affected_rows();
+            }
+            else{
+                return 0;
+            }
+        }
+
+
+
+
 
 
     }

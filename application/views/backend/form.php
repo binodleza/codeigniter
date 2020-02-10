@@ -134,4 +134,29 @@
               }
           });
       }
+
+       function SampleFunction(id) {
+           e.preventDefault();
+           $.ajax({
+               type: "GET",
+               url: '<?= base_url() ?>sample/sample_function',
+               data: {id:id},
+               success: function (response) {
+                   var result = $.parseJSON(response);
+                     var htm = '';
+                       $.each(result, function (i, v) {
+                          // htm += '<tr><td>' + v.status + '</td><td>' + v.date + '</td><td>' + v.comment + '</td><td>' + v.notify + '</td></tr>';
+                           htm +=   `<tr>
+                                <td>`+v.status+`</td>
+                                <td>`+v.comment+`</td>
+                                <td><a href="`+baseURl+`sample/sample_function?category_id=`+v.cat_id+`&subcat_id=`+v.subcat_id+`">Click</a></td>
+                              </tr>`;
+                       });
+                   $("#sampleAddId").html(htm);
+               },
+               error: function (jqXHR, textStatus, errorThrown) {
+                   alert(jqXHR.responseText);
+               }
+           });
+       }
       </script>
